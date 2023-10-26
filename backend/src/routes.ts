@@ -52,6 +52,7 @@ router.delete('/order/remove', isAuthenticated, new RemoveItemController().handl
 router.put('/order/send', isAuthenticated, new SendOrderController().handle)
 
 router.get('/orders', isAuthenticated, new ListOrderController().handle)
+router.get('/order/detail', isAuthenticated, new DetailUserController().handle)
 
 
 export { router }; 
