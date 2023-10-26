@@ -3,26 +3,26 @@ import prismaClient from "../../prisma";
 import { compare } from "bcryptjs";
 import { sign } from 'jsonwebtoken'
 
-interface AuthRequest{
+interface AuthRequest {
     email: string;
     password: string;
 }
 
-class AuthUserService{
-    async execute({email, password}: AuthRequest){
+class AuthUserService {
+    async execute({ email, password }: AuthRequest) {
         const user = await prismaClient.user.findFirst({
-            where:{
-                email:email
+            where: {
+                email: email
             }
         })
 
-        if(!user){
+        if (!user) {
             throw new Error("User/password incorrect")
         }
 
-        const passwordMatch = await compare(password, user.password)
+      //  const passwordMatch = await compare(password, user.password)
 
-        if(!password){
+        if (!password) {
             throw new Error("User/password incorrect")
         }
 
