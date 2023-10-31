@@ -1,42 +1,32 @@
-import { useContext , FormEvent} from "react"
-
 import Head from "next/head"
 import Image from "next/image"
-import styles from '../../styles/Home.module.scss'
+import styles from '../../../styles/home.module.scss'
 
-import logoImg from '../../public/logo.svg'
+import logoImg from '../../../public/logo.svg'
 
-import { Input } from '../components/ui/Input'
-import { Button } from "../components/ui/Button"
-
-import { AuthContext } from '../contexts/AuthContext'
+import { Input } from '../../components/ui/Input'
+import { Button } from "../../components/ui/Button"
 
 import Link from "next/link"
 
-export default function Home() {
-    const {singIn} = useContext(AuthContext)
-
-    async function handleLogin(event: FormEvent){
-        event.preventDefault();
-
-        let data = {
-            email: "algum@test.com",
-            password: "123123"
-        }
-
-        await singIn(data)
-    }
-
+export default function SingUp() {
     return (
         <>
             <Head>
-                <title>SujeitoPizza - Faça seu login</title>
+                <title>Faça seu cadastro agora</title>
             </Head>
             <div className={styles.containerCenter}>
                 <Image src={logoImg} alt="Logo Sujeito Pizzaria" />
 
                 <div className={styles.login}>
-                    <form onSubmit={handleLogin}>
+                    <h1>Criando sua conta</h1>
+
+                    <form>
+                        <Input
+                            placeholder="Digite seu nome"
+                            type="text"
+                        />
+
                         <Input
                             placeholder="Digite seu email"
                             type="text"
@@ -51,12 +41,12 @@ export default function Home() {
                             type="submit"
                             loading={false}
                         >
-                            Acessar
+                            Cadastrar
                         </Button>
                     </form>
 
-                    <Link href='/singup' legacyBehavior>
-                        <a className={styles.text}>Nao possui uma conta ? Cadastre-se</a>
+                    <Link href='/' legacyBehavior>
+                        <a className={styles.text}>Já possui uma conta ? Faça seu login!</a>
                     </Link>
 
                 </div>
