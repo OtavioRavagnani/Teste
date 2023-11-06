@@ -90,6 +90,9 @@ export default function Home() {
 export const getServerSideProps = canSSRGuest(async (ctx) => {
 
     return {
-        porps: {}
-    }
+        props: {
+          title: 'My Title',
+          content: '...'
+        }
+      }
 })
