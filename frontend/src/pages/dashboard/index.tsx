@@ -10,7 +10,7 @@ export default function Dashboard(){
             <title>painel - sujeito programador</title>
         </Head>
         <div>
-            <Header/>
+                <Header/>
 
             <h1>painel </h1>
         </div>
