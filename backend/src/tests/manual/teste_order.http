@@ -1,3 +1,5 @@
+
+
 @HOSTAPI=http://localhost:3333
 
 ###
@@ -12,18 +14,19 @@ x-tenantManageCode: 000000001
 "password": "123"
 }
 
-###
-POST {{HOSTAPI}}/users HTTP/1.1
-Content-Type: application/json
-
-{
-    "email":"admin@admin.com.br",
-    "name":"admin",
-    "password":"123"
-}
-
 
 ###
-GET {{HOSTAPI}}/me HTTP/1.1
+GET {{HOSTAPI}}/category HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{TOKEN_REST.response.body.$.token}}
+
+
+
+###
+POST {{HOSTAPI}}/category HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{TOKEN_REST.response.body.$.token}}
+
+{
+    "name":"c1X"
+}
