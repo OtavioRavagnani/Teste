@@ -14,19 +14,38 @@ x-tenantManageCode: 000000001
 "password": "123"
 }
 
+//-----------------------------------------------------------------------------------------------
 
 ###
-GET {{HOSTAPI}}/category HTTP/1.1
-Content-Type: application/json
-Authorization: Bearer {{TOKEN_REST.response.body.$.token}}
-
-
-
-###
-POST {{HOSTAPI}}/category HTTP/1.1
+POST {{HOSTAPI}}/order HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer {{TOKEN_REST.response.body.$.token}}
 
 {
-    "name":"c1X"
+    "table": 10
 }
+
+###
+POST {{HOSTAPI}}/order/add HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{TOKEN_REST.response.body.$.token}}
+
+{
+    "order_id": "30c409f0-b50c-4fcc-bbec-4cfe30d10981",
+    "product_id": "2fca06da-5997-47da-ba51-47e85a5f7041",
+    "amount": 1
+}
+
+###
+PUT  {{HOSTAPI}}/order/send HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{TOKEN_REST.response.body.$.token}}
+
+{
+    "order_id": "b448021a-3939-4683-bbbd-4d37d7aae7f1"
+}
+
+###
+GET   {{HOSTAPI}}/orders HTTP/1.1
+Content-Type: application/body
+Authorization: Bearer {{TOKEN_REST.response.body.$.token}}

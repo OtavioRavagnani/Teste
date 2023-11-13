@@ -13,7 +13,7 @@ export function Header() {
   return (
     <header className={styles.headerContainer}>
       <div className={styles.headerContent}>
-        <Link href="/Dashboard">
+        <Link href="/dashboard">
           <Image src="/logo.svg" alt="Logo" width={190} height={60} />
         </Link>
 
