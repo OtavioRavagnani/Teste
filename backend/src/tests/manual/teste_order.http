@@ -22,7 +22,7 @@ Content-Type: application/json
 Authorization: Bearer {{TOKEN_REST.response.body.$.token}}
 
 {
-    "table": 10
+    "table": 112
 }
 
 ###
@@ -31,8 +31,8 @@ Content-Type: application/json
 Authorization: Bearer {{TOKEN_REST.response.body.$.token}}
 
 {
-    "order_id": "30c409f0-b50c-4fcc-bbec-4cfe30d10981",
-    "product_id": "2fca06da-5997-47da-ba51-47e85a5f7041",
+    "order_id": "c8fd3bdc-588e-4cee-80a5-fa92a0628cc8",
+    "product_id": "ef2abe4e-8a69-4476-ae42-27316ba0d6a1",
     "amount": 1
 }
 
