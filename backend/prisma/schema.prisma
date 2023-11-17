@@ -53,7 +53,7 @@ model Order {
   id     String  @id @default(uuid())
   table  Int
   status Boolean @default(false)
-  draft  Boolean @default(true)
+  draft  Boolean @default(false)
   name   String?
 
   created_at DateTime? @default(now())
