@@ -4,7 +4,7 @@ import Head from "next/head";
 import styles from "./styles.module.scss";
 
 import { Header } from "../../components/Header";
-import { FiRefreshCcw } from "react-icons/fi";
+import { FiRefreshCcw, FiPlusSquare, FiXCircle, FiEdit3 } from "react-icons/fi";
 
 import { setupAPIClient } from "../../services/api";
 
@@ -54,6 +54,33 @@ export default function Dashboard({ orders }: HomeProps) {
     setModalVisible(false);
   }
 
+  //---------------------------------------------------------------
+
+  async function handleAddNewOrder() {
+    const apiClient = setupAPIClient();
+    const createOrderService = new CreateOrderService(apiClient);
+
+    const newOrder = {
+      table: 1, // Replace with the actual table number
+      name: "Novo Pedido", // Replace with the customer's name
+    };
+
+    try {
+      const createdOrder = await createOrderService.execute(newOrder);
+
+      if (createdOrder) {
+        const response = await apiClient.get("/orders");
+        setOrderList(response.data);
+      } else {
+        console.error("Error creating new order");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  //--------------------------------------------------------------
+
   async function handleOpenModalView(id: string) {
     const apiClient = setupAPIClient();
 
@@ -67,6 +94,8 @@ export default function Dashboard({ orders }: HomeProps) {
     setModalVisible(true);
   }
 
+  //--------------------------------------------------------------
+
   async function handleFinishItem(id: string) {
     const apiClient = setupAPIClient();
     await apiClient.put("/order/finish", {
@@ -78,6 +107,8 @@ export default function Dashboard({ orders }: HomeProps) {
     setOrderList(response.data);
     setModalVisible(false);
   }
+
+  //------------------------------------------------------------
 
   async function handleRefreshOrders() {
     const apiClient = setupAPIClient();
@@ -102,6 +133,9 @@ export default function Dashboard({ orders }: HomeProps) {
             <button onClick={handleRefreshOrders}>
               <FiRefreshCcw size={25} color="#3fffa3" />
             </button>
+            <button onClick={handleAddNewOrder}>
+              <FiPlusSquare size={30} color="#3fffa3" />
+            </button>
           </div>
 
           <article className={styles.listOreders}>
@@ -116,6 +150,12 @@ export default function Dashboard({ orders }: HomeProps) {
                 <button onClick={() => handleOpenModalView(item.id)}>
                   <div className={styles.tag}></div>
                   <span>Mesa {item.table}</span>
+                </button>
+                <button>
+                  <FiEdit3 size={30} color="var(--yellow)" />
+                </button>
+                <button>
+                  <FiXCircle size={30} color="var( --red-900)" />
                 </button>
               </section>
             ))}
