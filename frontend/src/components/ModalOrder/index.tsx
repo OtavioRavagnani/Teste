@@ -36,15 +36,19 @@ export function ModalOrder({ isOpen, onRequestClose }: ModalOrderProps) {
         <FiX size={45} color="#f34748" />
       </button>
 
-      <div className={styles.container}>
-        <h1>Criar uma mesa nova</h1>
+      <form>
+        <div className={styles.container}>
+          <h1>Criar uma mesa nova</h1>
+        </div>
+
         <input
-          type="text"
+          className={styles.input}
+          type="number"
           placeholder="Numero da mesa"
           id="Inputmesa"
-          className={styles.Inputmesa}
         />
-      </div>
+      </form>
+      <button className={styles.buttonAdd}>Adicionar</button>
     </Modal>
   );
 }

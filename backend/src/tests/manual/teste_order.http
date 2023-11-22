@@ -22,7 +22,7 @@ Content-Type: application/json
 Authorization: Bearer {{TOKEN_REST.response.body.$.token}}
 
 {
-    "table": 112
+    "table": 114
 }
 
 ###

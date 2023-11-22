@@ -123,7 +123,7 @@ export default function Dashboard({ orders }: HomeProps) {
           <div className={styles.containerHeader}>
             <h1>Últimos pedidos</h1>
             <button onClick={handleRefreshOrders}>
-              <FiRefreshCcw size={25} color="#3fffa3" />
+              <FiRefreshCcw size={28} color="#3fffa3" />
             </button>
             <button onClick={handleNewOrder}>
               <FiPlusSquare size={30} color="#3fffa4" />
@@ -143,11 +143,13 @@ export default function Dashboard({ orders }: HomeProps) {
                   <div className={styles.tag}></div>
                   <span>Mesa {item.table}</span>
                 </button>
+
                 <button>
-                  <FiEdit3 size={30} color="var(--yellow)" />
+                  <FiEdit3 />
                 </button>
+
                 <button>
-                  <FiXCircle size={30} color="var( --red-900)" />
+                  <FiXCircle />
                 </button>
               </section>
             ))}
