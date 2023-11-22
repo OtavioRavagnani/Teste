@@ -56,28 +56,20 @@ export default function Dashboard({ orders }: HomeProps) {
 
   //---------------------------------------------------------------
 
-  async function handleAddNewOrder() {
+  const handleNewOrder = async () => {
     const apiClient = setupAPIClient();
-    const createOrderService = new CreateOrderService(apiClient);
 
-    const newOrder = {
-      table: 1, // Replace with the actual table number
-      name: "Novo Pedido", // Replace with the customer's name
-    };
+    const response = await apiClient.post("/order/add", {
+      table: 1, // Replace with the desired table number
+      status: false,
+      draft: false,
+      name: null, // Replace with the desired order name or null
+    });
 
-    try {
-      const createdOrder = await createOrderService.execute(newOrder);
+    const newOrder = response.data;
 
-      if (createdOrder) {
-        const response = await apiClient.get("/orders");
-        setOrderList(response.data);
-      } else {
-        console.error("Error creating new order");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
+    setOrderList((prevOrderList) => [...prevOrderList, newOrder]);
+  };
 
   //--------------------------------------------------------------
 
@@ -133,8 +125,8 @@ export default function Dashboard({ orders }: HomeProps) {
             <button onClick={handleRefreshOrders}>
               <FiRefreshCcw size={25} color="#3fffa3" />
             </button>
-            <button onClick={handleAddNewOrder}>
-              <FiPlusSquare size={30} color="#3fffa3" />
+            <button onClick={handleNewOrder}>
+              <FiPlusSquare size={30} color="#3fffa4" />
             </button>
           </div>
 
