@@ -12,7 +12,12 @@ interface ModalOrderProps {
   handleFinishOrder: (id: string) => void;
 }
 
-export function ModalOrder({ isOpen, onRequestClose }: ModalOrderProps) {
+export function ModalOrder({
+  isOpen,
+  onRequestClose,
+  order,
+  handleFinishOrder,
+}: ModalOrderProps) {
   const customStyles = {
     content: {
       top: "50%",
@@ -36,19 +41,30 @@ export function ModalOrder({ isOpen, onRequestClose }: ModalOrderProps) {
         <FiX size={45} color="#f34748" />
       </button>
 
-      <form>
-        <div className={styles.container}>
-          <h1>Criar uma mesa nova</h1>
-        </div>
+      <div className={styles.container}>
+        <h2>Detalhes do pedido</h2>
+        <span className={styles.table}>
+          Mesa: <strong>{order[0]?.order.table}</strong>
+        </span>
 
-        <input
-          className={styles.input}
-          type="number"
-          placeholder="Numero da mesa"
-          id="Inputmesa"
-        />
-      </form>
-      <button className={styles.buttonAdd}>Adicionar</button>
+        {order.map((item) => (
+          <section key={item.id} className={styles.containerItem}>
+            <span>
+              {item.amount} - <strong>{item.product.name}</strong>
+            </span>
+            <span className={styles.description}>
+              {item.product.description}
+            </span>
+          </section>
+        ))}
+
+        <button
+          className={styles.buttonOrder}
+          onClick={() => handleFinishOrder(order[0]?.order_id)}
+        >
+          Concluir pedido
+        </button>
+      </div>
     </Modal>
   );
 }

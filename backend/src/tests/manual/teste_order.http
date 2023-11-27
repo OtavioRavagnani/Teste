@@ -31,7 +31,7 @@ Content-Type: application/json
 Authorization: Bearer {{TOKEN_REST.response.body.$.token}}
 
 {
-    "order_id": "c8fd3bdc-588e-4cee-80a5-fa92a0628cc8",
+    "order_id": "982713c3-c261-40e0-bf3d-26e25bf9218c",
     "product_id": "ef2abe4e-8a69-4476-ae42-27316ba0d6a1",
     "amount": 1
 }
@@ -42,7 +42,7 @@ Content-Type: application/json
 Authorization: Bearer {{TOKEN_REST.response.body.$.token}}
 
 {
-    "order_id": "b448021a-3939-4683-bbbd-4d37d7aae7f1"
+    "order_id": "982713c3-c261-40e0-bf3d-26e25bf9218c"
 }
 
 ###

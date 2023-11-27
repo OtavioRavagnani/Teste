@@ -47,6 +47,7 @@
     align-items: center;
     display: flex;
   }
+
 }
 
 .tag{
@@ -60,16 +61,4 @@
 .emptyList{
   font-size: 1.2rem;
   color: var(--gray-100);
-}
-
-.orderItem > button:nth-child(2) {
-    color: var(--yellow);
-    font-size: 30px;
-    margin-left: 460px;
-}
-
-.orderItem > button:nth-child(3) {
-    color: var(--red-900);
-    font-size: 30px;
-    margin-left: 10px;
 }
