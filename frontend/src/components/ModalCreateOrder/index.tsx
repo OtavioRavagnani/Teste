@@ -12,7 +12,7 @@ interface ModalOrderProps {
   handleFinishOrder: (id: string) => void;
 }
 
-export function ModalOrder({
+export function ModalOrderCreate({
   isOpen,
   onRequestClose,
   order,
