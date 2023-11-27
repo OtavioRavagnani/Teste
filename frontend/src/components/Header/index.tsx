@@ -18,6 +18,10 @@ export function Header() {
         </Link>
 
         <nav className={styles.menuNav}>
+          <Link href="/register" legacyBehavior>
+            <a>Cadastrar</a>
+          </Link>
+
           <Link href="/category" legacyBehavior>
             <a>Categoria</a>
           </Link>
