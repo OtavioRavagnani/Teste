@@ -18,7 +18,7 @@ export function Header() {
         </Link>
 
         <nav className={styles.menuNav}>
-          <Link href="/register" legacyBehavior>
+          <Link href="/order" legacyBehavior>
             <a>Cadastrar</a>
           </Link>
 
