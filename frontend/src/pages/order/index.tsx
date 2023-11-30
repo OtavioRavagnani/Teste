@@ -11,7 +11,7 @@ import { canSSRAuth } from "../../utils/canSSRAuth";
 export default function Category() {
   const [number, setNumber] = useState("");
 
-  async function handleRegister(event: FormEvent) {
+  async function orderCreate(event: FormEvent) {
     event.preventDefault();
 
     if (number === "") {
@@ -23,32 +23,32 @@ export default function Category() {
       table: number,
     });
 
-    toast.success("Pedido criado com sucesso!");
+    toast.success("Mesa criada com sucesso!");
     setNumber("");
   }
 
   return (
     <>
       <Head>
-        <title>Nova pedido - Sujeito Pizzaria</title>
+        <title>Nova mesa - Sujeito Pizzaria</title>
       </Head>
       <div>
         <Header />
 
         <main className={styles.container}>
-          <h1>Cadastrar pedido</h1>
+          <h1>Cadastrar mesa</h1>
 
-          <form className={styles.form} onSubmit={handleRegister}>
+          <form className={styles.form} onSubmit={orderCreate}>
             <input
-              type="text"
-              placeholder="Digite o número do pedido"
+              type="number"
+              placeholder="Digite o número da mesa"
               className={styles.input}
               value={number}
               onChange={(e) => setNumber(e.target.value)}
             />
 
             <button className={styles.buttonAdd} type="submit">
-              Criar pedido
+              Criar mesa
             </button>
           </form>
         </main>
