@@ -5,26 +5,27 @@ import styles from "./styles.module.scss";
 
 import { setupAPIClient } from "../../services/api";
 import { toast } from "react-toastify";
-
+import { useRouter } from "next/router";
 import { canSSRAuth } from "../../utils/canSSRAuth";
 
 export default function Category() {
-  const [number, setNumber] = useState("");
-
+  const [numberTable, setNumberTable] = useState<number>(null);
+  const router = useRouter();
   async function orderCreate(event: FormEvent) {
+    console.log("xxxxxxxxxxxxxxxxxxx", numberTable);
     event.preventDefault();
 
-    if (number === "") {
+    if (numberTable === null || numberTable === 0) {
       return;
     }
 
     const apiClient = setupAPIClient();
     await apiClient.post("/order", {
-      table: number,
+      table: numberTable,
     });
 
     toast.success("Mesa criada com sucesso!");
-    setNumber("");
+    setNumberTable(null);
   }
 
   return (
@@ -43,8 +44,8 @@ export default function Category() {
               type="number"
               placeholder="Digite o número da mesa"
               className={styles.input}
-              value={number}
-              onChange={(e) => setNumber(e.target.value)}
+              value={numberTable}
+              onChange={(e) => setNumberTable(parseFloat(e.target.value))}
             />
 
             <button className={styles.buttonAdd} type="submit">

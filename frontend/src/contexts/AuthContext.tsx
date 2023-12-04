@@ -69,7 +69,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           signOut();
         });
     }
-  });
+  }, []);
 
   async function singIn({ email, password }: SingInProps) {
     try {
