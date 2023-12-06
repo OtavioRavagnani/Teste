@@ -37,17 +37,16 @@
   margin-bottom: 1rem;
   align-items: center;
   border-radius: 0.3rem;
+}
 
-  button{
-    border:0;
-    background: transparent;
-    font-size: 1.2rem;
-    color: var(--white);
-    height: 60px;
-    align-items: center;
-    display: flex;
-  }
-
+.buttonOrder{
+  border:0;
+  background: transparent;
+  font-size: 1.2rem;
+  color: var(--white);
+  height: 60px;
+  align-items: center;
+  display: flex;
 }
 
 .tag{
@@ -61,4 +60,13 @@
 .emptyList{
   font-size: 1.2rem;
   color: var(--gray-100);
+}
+
+.buttonClose{
+  background: transparent;
+  border: 0;
+  margin-left: 500px;
+  color: var(--red-900);
+  font-size: 30px;
+  margin-top: 0.4rem;
 }

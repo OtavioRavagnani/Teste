@@ -12,16 +12,15 @@ export default function Category() {
   const [numberTable, setNumberTable] = useState<number>(null);
   const router = useRouter();
   async function orderCreate(event: FormEvent) {
-    console.log("xxxxxxxxxxxxxxxxxxx", numberTable);
     event.preventDefault();
 
     if (numberTable === null || numberTable === 0) {
-      return;
+      return toast.error("Preencha todos os dados");
     }
 
     const apiClient = setupAPIClient();
     await apiClient.post("/order", {
-      table: numberTable,
+      table: Number(numberTable),
     });
 
     toast.success("Mesa criada com sucesso!");
@@ -41,7 +40,7 @@ export default function Category() {
 
           <form className={styles.form} onSubmit={orderCreate}>
             <input
-              type="number"
+              type="text"
               placeholder="Digite o número da mesa"
               className={styles.input}
               value={numberTable}

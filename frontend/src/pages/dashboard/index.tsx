@@ -4,7 +4,7 @@ import Head from "next/head";
 import styles from "./styles.module.scss";
 
 import { Header } from "../../components/Header";
-import { FiRefreshCcw } from "react-icons/fi";
+import { FiRefreshCcw, FiX } from "react-icons/fi";
 
 import { setupAPIClient } from "../../services/api";
 
@@ -88,6 +88,15 @@ export default function Dashboard({ orders }: HomeProps) {
 
   Modal.setAppElement("#__next");
 
+  function handleCloseOrder(id: string) {
+    const apiClient = setupAPIClient();
+
+    apiClient.delete(`/order/${id}`).then(() => {
+      const updatedOrderList = orderList.filter((item) => item.id !== id);
+      setOrderList(updatedOrderList);
+    });
+  }
+
   return (
     <>
       <Head>
@@ -113,9 +122,18 @@ export default function Dashboard({ orders }: HomeProps) {
 
             {orderList.map((item) => (
               <section key={item.id} className={styles.orderItem}>
-                <button onClick={() => handleOpenModalView(item.id)}>
+                <button
+                  onClick={() => handleOpenModalView(item.id)}
+                  className={styles.buttonOrder}
+                >
                   <div className={styles.tag}></div>
                   <span>Mesa {item.table}</span>
+                </button>
+                <button
+                  onClick={(event) => handleCloseOrder(event.currentTarget.id)}
+                  className={styles.buttonClose}
+                >
+                  <FiX />
                 </button>
               </section>
             ))}
