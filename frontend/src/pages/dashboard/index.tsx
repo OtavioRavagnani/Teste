@@ -91,9 +91,10 @@ export default function Dashboard({ orders }: HomeProps) {
   function handleCloseOrder(id: string) {
     const apiClient = setupAPIClient();
 
-    apiClient.delete(`/order/${id}`).then(() => {
-      const updatedOrderList = orderList.filter((item) => item.id !== id);
-      setOrderList(updatedOrderList);
+    apiClient.delete("/order", {
+      params: {
+        order_id: id,
+      },
     });
   }
 
@@ -129,8 +130,9 @@ export default function Dashboard({ orders }: HomeProps) {
                   <div className={styles.tag}></div>
                   <span>Mesa {item.table}</span>
                 </button>
+
                 <button
-                  onClick={(event) => handleCloseOrder(event.currentTarget.id)}
+                  onClick={() => handleCloseOrder(item.id)}
                   className={styles.buttonClose}
                 >
                   <FiX />
