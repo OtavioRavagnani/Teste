@@ -19,9 +19,10 @@ interface Category {
 
 export default function Category() {
   const [numberTable, setNumberTable] = useState<number>(null);
-  const [category, setCategory] = useState<number | null>(null); // Store selected category ID
+  const [product, setProduct] = useState<number | null>(null); // Store selected product ID
   const [categories, setCategories] = useState<Category[]>([]); // Store list of categories
   const router = useRouter();
+  const [amount, setAmount] = useState<number>(1); // Set default quantity to 1
 
   // Fetch categories on component mount
   useEffect(() => {
@@ -30,7 +31,7 @@ export default function Category() {
 
   async function getCategories() {
     const apiClient = setupAPIClient();
-    const response = await apiClient.get("/category");
+    const response = await apiClient.get("/category/product");
     if (response.status === 200) {
       return response.data;
     } else {
@@ -42,15 +43,29 @@ export default function Category() {
   async function newProduct(event: FormEvent) {
     event.preventDefault();
 
-    if (!numberTable || !category) {
+    if (!numberTable || !product || !amount) {
       toast.error("Preencha todos os campos.");
       return;
     }
 
-    // Add your product adding logic here, using numberTable and category
-    // ...
+    const apiClient = setupAPIClient();
 
-    toast.success("Pedido adicionado com sucesso!");
+    // Replace placeholder with actual API call to add product to order
+    const response = await apiClient.post("/order/product", {
+      order_id: numberTable,
+      product_id: product,
+      amount: amount,
+    });
+
+    if (response.status === 200) {
+      toast.success("Pedido adicionado com sucesso!");
+      // Clear form inputs
+      setNumberTable(null);
+      setProduct(null);
+      setAmount(1);
+    } else {
+      toast.error("Erro ao adicionar produto.");
+    }
   }
 
   return (
@@ -72,17 +87,26 @@ export default function Category() {
             <select
               className={styles.select}
               id="category"
-              onChange={(event) => setCategory(Number(event.target.value))}
+              onChange={(event) => setProduct(Number(event.target.value))}
             >
-              <option value="">Selecione a categoria</option>
+              <option value="">Selecione o produto</option>
               {categories.map((category) => (
                 <option key={category.id} value={category.id}>
                   {category.name}
                 </option>
               ))}
             </select>
+
+            <input
+              type="number"
+              placeholder="Quantidade"
+              className={styles.input}
+              min={1} // Set minimum quantity to 1
+              onChange={(event) => setAmount(Number(event.target.value))}
+            />
+
             <button className={styles.buttonAdd} type="submit">
-              Adicionar o pedido
+              Adicionar ao pedido
             </button>
           </form>
         </main>
