@@ -33,9 +33,11 @@ export default function Category() {
   const [amount, setAmount] = useState<number>(1);
 
   //-------------------------------------------------------------
+  useEffect(() => {
+    getOrders().then((order) => setOrders(order));
+  }, []);
 
   //-------------------------------------------------------------
-  // Fetch categories on component mount
   useEffect(() => {
     getCategories().then((categories) => setCategories(categories));
   }, []);
@@ -107,9 +109,10 @@ export default function Category() {
           <h1>Adicionar produto</h1>
           <form className={styles.form} onSubmit={newProduct}>
             <select className={styles.select} id="orders">
+              <option value="">Selecione a mesa</option>
               {orders.map((orders) => (
                 <option key={orders.id} value={orders.id}>
-                  {orders.id}
+                  {orders.table}
                 </option>
               ))}
             </select>
