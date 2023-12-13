@@ -26,8 +26,6 @@ type Orders = {
 //-------------------------------------------------------------
 
 export default function Category() {
-  const [numberTable, setNumberTable] = useState<number>(null);
-  const [product, setProduct] = useState<number | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const [orders, setOrders] = useState<Orders[]>([]);
   const [amount, setAmount] = useState<number>(1);
@@ -70,33 +68,33 @@ export default function Category() {
 
   //-------------------------------------------------------------
 
-  async function newProduct(event: FormEvent) {
+  async function AddItens(event: FormEvent) {
     event.preventDefault();
 
-    if (!numberTable || !product || !amount) {
-      toast.error("Preencha todos os campos.");
+    if (!orders || !categories || !amount) {
+      toast.error("Preencha todos os campos para adicionar itens à mesa.");
       return;
     }
 
     const apiClient = setupAPIClient();
 
-    // Replace placeholder with actual API call to add product to order
-    const response = await apiClient.post("/order/product", {
-      order_id: numberTable,
-      product_id: product,
-      amount: amount,
-    });
-
-    if (response.status === 200) {
-      toast.success("Pedido adicionado com sucesso!");
-      // Clear form inputs
-      setNumberTable(null);
-      setProduct(null);
-      setAmount(1);
-    } else {
-      toast.error("Erro ao adicionar produto.");
-    }
+    await apiClient
+      .post("/order/add", {
+        order_id: orders,
+        product_id: categories,
+        amount: amount,
+      })
+      .then(() => {
+        toast.success("Itens adicionados à mesa com sucesso!");
+        // Atualize a lista de itens da mesa
+        getOrders();
+      })
+      .catch((error) => {
+        toast.error("Erro ao adicionar itens à mesa.");
+        console.error(error); // Log o erro para investigação posterior
+      });
   }
+
   //-------------------------------------------------------------
   return (
     <>
@@ -107,7 +105,7 @@ export default function Category() {
         <Header />
         <main className={styles.container}>
           <h1>Adicionar produto</h1>
-          <form className={styles.form} onSubmit={newProduct}>
+          <form className={styles.form} onSubmit={AddItens}>
             <select className={styles.select} id="orders">
               <option value="">Selecione a mesa</option>
               {orders.map((orders) => (
@@ -117,11 +115,7 @@ export default function Category() {
               ))}
             </select>
 
-            <select
-              className={styles.select}
-              id="category"
-              onChange={(event) => setProduct(Number(event.target.value))}
-            >
+            <select className={styles.select} id="category">
               <option value="">Selecione o produto</option>
               {categories.map((category) => (
                 <option key={category.id} value={category.id}>
@@ -134,8 +128,6 @@ export default function Category() {
               type="number"
               placeholder="Quantidade"
               className={styles.input}
-              min={1} // Set minimum quantity to 1
-              onChange={(event) => setAmount(Number(event.target.value))}
             />
 
             <button className={styles.buttonAdd} type="submit">
