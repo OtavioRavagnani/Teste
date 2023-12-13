@@ -15,19 +15,45 @@ interface Category {
   // ... outras propriedades
 }
 
+type Orders = {
+  id: string;
+  table: string | number;
+  status: boolean;
+  draft: boolean;
+  name: string | null;
+};
+
 //-------------------------------------------------------------
 
 export default function Category() {
   const [numberTable, setNumberTable] = useState<number>(null);
-  const [product, setProduct] = useState<number | null>(null); // Store selected product ID
-  const [categories, setCategories] = useState<Category[]>([]); // Store list of categories
-  const router = useRouter();
-  const [amount, setAmount] = useState<number>(1); // Set default quantity to 1
+  const [product, setProduct] = useState<number | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [orders, setOrders] = useState<Orders[]>([]);
+  const [amount, setAmount] = useState<number>(1);
 
+  //-------------------------------------------------------------
+
+  //-------------------------------------------------------------
   // Fetch categories on component mount
   useEffect(() => {
     getCategories().then((categories) => setCategories(categories));
   }, []);
+
+  //-------------------------------------------------------------
+
+  async function getOrders() {
+    const apiClient = setupAPIClient();
+    const response = await apiClient.get("/orders");
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      toast.error("Erro ao carregar mesas.");
+      return [];
+    }
+  }
+
+  //-------------------------------------------------------------
 
   async function getCategories() {
     const apiClient = setupAPIClient();
@@ -39,6 +65,8 @@ export default function Category() {
       return [];
     }
   }
+
+  //-------------------------------------------------------------
 
   async function newProduct(event: FormEvent) {
     event.preventDefault();
@@ -67,7 +95,7 @@ export default function Category() {
       toast.error("Erro ao adicionar produto.");
     }
   }
-
+  //-------------------------------------------------------------
   return (
     <>
       <Head>
@@ -78,12 +106,14 @@ export default function Category() {
         <main className={styles.container}>
           <h1>Adicionar produto</h1>
           <form className={styles.form} onSubmit={newProduct}>
-            <input
-              type="text"
-              placeholder="Digite o número da mesa"
-              className={styles.input}
-              onChange={(event) => setNumberTable(Number(event.target.value))}
-            />
+            <select className={styles.select} id="orders">
+              {orders.map((orders) => (
+                <option key={orders.id} value={orders.id}>
+                  {orders.id}
+                </option>
+              ))}
+            </select>
+
             <select
               className={styles.select}
               id="category"
