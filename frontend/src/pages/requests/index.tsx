@@ -92,6 +92,8 @@ export default function Category() {
       .catch((error) => {
         toast.error("Erro ao adicionar itens à mesa.");
         console.error(error); // Log o erro para investigação posterior
+
+        console.log(orders);
       });
   }
 
@@ -109,7 +111,7 @@ export default function Category() {
             <select className={styles.select} id="orders">
               <option value="">Selecione a mesa</option>
               {orders.map((orders) => (
-                <option key={orders.id} value={orders.id}>
+                <option key={orders.table} value={orders.table}>
                   {orders.table}
                 </option>
               ))}
