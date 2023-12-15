@@ -3,6 +3,7 @@ import { parseCookies } from "nookies";
 import { AuthTokenError } from "./errors/AuthTokenError";
 
 import { signOut } from "../contexts/AuthContext";
+import { toast } from "react-toastify";
 
 export function setupAPIClient(ctx = undefined) {
   let cookies = parseCookies(ctx);
@@ -26,6 +27,13 @@ export function setupAPIClient(ctx = undefined) {
           signOut();
         } else {
           return Promise.reject(new AuthTokenError());
+        }
+      } else if (error.response.status === 400) {
+        if (error.response.data) {
+          if ((error.response.data as any).error) {
+            toast.error((error.response.data as any).error);
+            return api;
+          }
         }
       }
 

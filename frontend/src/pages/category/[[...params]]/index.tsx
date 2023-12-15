@@ -1,15 +1,35 @@
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import Head from "next/head";
-import { Header } from "../../components/Header";
+import { Header } from "../../../components/Header";
 import styles from "./styles.module.scss";
-
-import { setupAPIClient } from "../../services/api";
+import { useRouter } from "next/router";
+import { setupAPIClient } from "../../../services/api";
 import { toast } from "react-toastify";
 
-import { canSSRAuth } from "../../utils/canSSRAuth";
+import { canSSRAuth } from "../../../utils/canSSRAuth";
+import _ from "lodash";
 
 export default function Category() {
+  const route = useRouter();
+  const [id, setId] = useState();
   const [name, setName] = useState("");
+
+  useEffect(() => {
+    const { params } = route.query;
+    (async () => {
+      if (params) {
+        await handleGetById(parseInt(params[0]));
+      }
+    })();
+  }, []);
+
+  async function handleGetById(id: number) {
+    const apiClient = setupAPIClient();
+    const result = (await apiClient.get(`/category/${id}`)).data;
+
+    setId(result?.id);
+    setName(result?.name);
+  }
 
   async function handleRegister(event: FormEvent) {
     event.preventDefault();
@@ -20,11 +40,10 @@ export default function Category() {
 
     const apiClient = setupAPIClient();
     await apiClient.post("/category", {
+      id: id,
       name: name,
     });
-
-    toast.success("Categoria cadastrada com sucesso!");
-    setName("");
+    toast.success("Salvo com sucesso!");
   }
 
   return (

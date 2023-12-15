@@ -24,7 +24,7 @@ export default function Category() {
     });
 
     toast.success("Mesa criada com sucesso!");
-    setNumberTable(null);
+    router.push("/requests");
   }
 
   return (

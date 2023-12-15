@@ -9,35 +9,32 @@ import { useRouter } from "next/router";
 import { canSSRAuth } from "../../utils/canSSRAuth";
 
 //-------------------------------------------------------------
-interface Category {
-  id: string; // Substitua por propriedades reais do seu objeto Category
+interface Product {
+  id: string;
   name: string;
-  // ... outras propriedades
 }
 
-type Orders = {
+interface Orders {
   id: string;
   table: string | number;
   status: boolean;
   draft: boolean;
   name: string | null;
-};
+}
 
 //-------------------------------------------------------------
 
-export default function Category() {
-  const [categories, setCategories] = useState<Category[]>([]);
+export default function Request() {
+  const [products, setProducts] = useState<Product[]>([]);
   const [orders, setOrders] = useState<Orders[]>([]);
-  const [amount, setAmount] = useState<number>(1);
+  const [amountInput, setAmountInput] = useState<number>();
+  const [orderInput, setOrderInput] = useState<number>();
+  const [productInput, setProductInput] = useState<number>(1);
 
   //-------------------------------------------------------------
   useEffect(() => {
     getOrders().then((order) => setOrders(order));
-  }, []);
-
-  //-------------------------------------------------------------
-  useEffect(() => {
-    getCategories().then((categories) => setCategories(categories));
+    getProducts().then((products) => setProducts(products));
   }, []);
 
   //-------------------------------------------------------------
@@ -55,23 +52,31 @@ export default function Category() {
 
   //-------------------------------------------------------------
 
-  async function getCategories() {
+  async function getProducts() {
     const apiClient = setupAPIClient();
     const response = await apiClient.get("/category/product");
     if (response.status === 200) {
       return response.data;
     } else {
-      toast.error("Erro ao carregar categorias.");
+      toast.error("Erro ao carregar produtos.");
       return [];
     }
   }
 
+  function handleChangeOrder(event) {
+    setOrderInput(event.target.value);
+  }
+
+  function handleChangeProduct(event) {
+    setProductInput(event.target.value);
+  }
   //-------------------------------------------------------------
 
   async function AddItens(event: FormEvent) {
     event.preventDefault();
 
-    if (!orders || !categories || !amount) {
+    console.log("xxxxx", event);
+    if (!orderInput || !productInput || !amountInput) {
       toast.error("Preencha todos os campos para adicionar itens à mesa.");
       return;
     }
@@ -80,20 +85,16 @@ export default function Category() {
 
     await apiClient
       .post("/order/add", {
-        order_id: orders,
-        product_id: categories,
-        amount: amount,
+        order_id: orderInput,
+        product_id: productInput,
+        amount: amountInput,
       })
       .then(() => {
         toast.success("Itens adicionados à mesa com sucesso!");
-        // Atualize a lista de itens da mesa
-        getOrders();
       })
       .catch((error) => {
         toast.error("Erro ao adicionar itens à mesa.");
         console.error(error); // Log o erro para investigação posterior
-
-        console.log(orders);
       });
   }
 
@@ -108,28 +109,39 @@ export default function Category() {
         <main className={styles.container}>
           <h1>Adicionar produto</h1>
           <form className={styles.form} onSubmit={AddItens}>
-            <select className={styles.select} id="orders">
+            <select
+              className={styles.select}
+              id="order"
+              onChange={handleChangeOrder}
+            >
               <option value="">Selecione a mesa</option>
               {orders.map((orders) => (
-                <option key={orders.table} value={orders.table}>
+                <option key={orders.id} value={orders.id}>
                   {orders.table}
                 </option>
               ))}
             </select>
 
-            <select className={styles.select} id="category">
+            <select
+              className={styles.select}
+              id="product"
+              onChange={handleChangeProduct}
+            >
               <option value="">Selecione o produto</option>
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
+              {products.map((product) => (
+                <option key={product.id} value={product.id}>
+                  {product.name}
                 </option>
               ))}
             </select>
 
             <input
+              id="amount"
               type="number"
               placeholder="Quantidade"
               className={styles.input}
+              value={amountInput}
+              onChange={(e) => setAmountInput(parseInt(e.target.value))}
             />
 
             <button className={styles.buttonAdd} type="submit">

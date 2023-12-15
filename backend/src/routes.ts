@@ -25,6 +25,7 @@ import { FinishOrderController } from "./controllers/order/FinishOrderController
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 
 import upLoadConfig from "./config/multer";
+import { FindByIdCategoryController } from "./controllers/category/FindByIdCategoryController";
 
 const router = Router();
 
@@ -42,6 +43,11 @@ router.post(
   new CreateCategoryController().handle
 );
 router.get("/category", isAuthenticated, new ListCategoryController().handle);
+router.get(
+  "/category/:id",
+  isAuthenticated,
+  new FindByIdCategoryController().handle
+);
 
 //--ROTAS PRODUCT
 router.post(

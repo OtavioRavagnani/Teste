@@ -70,7 +70,7 @@ model Item {
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 
-  order      Order   @relation(fields: [order_id], references: [id])
+  order      Order   @relation(fields: [order_id], references: [id], onDelete: Cascade)
   product    Product @relation(fields: [product_id], references: [id])
   order_id   String
   product_id String

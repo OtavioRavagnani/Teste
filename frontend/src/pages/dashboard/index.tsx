@@ -7,7 +7,7 @@ import { Header } from "../../components/Header";
 import { FiRefreshCcw, FiX } from "react-icons/fi";
 
 import { setupAPIClient } from "../../services/api";
-
+import { useRouter } from "next/router";
 import { ModalOrder } from "../../components/ModalOrder";
 
 import Modal from "react-modal";
@@ -45,6 +45,8 @@ export type OrderItemProps = {
 };
 
 export default function Dashboard({ orders }: HomeProps) {
+  const router = useRouter();
+
   const [orderList, setOrderList] = useState(orders || []);
 
   const [modalItem, setModalItem] = useState<OrderItemProps[]>();
@@ -88,14 +90,16 @@ export default function Dashboard({ orders }: HomeProps) {
 
   Modal.setAppElement("#__next");
 
-  function handleCloseOrder(id: string) {
+  async function handleCloseOrder(id: string) {
     const apiClient = setupAPIClient();
 
-    apiClient.delete("/order", {
+    await apiClient.delete("/order", {
       params: {
         order_id: id,
       },
     });
+
+    router.reload();
   }
 
   return (
